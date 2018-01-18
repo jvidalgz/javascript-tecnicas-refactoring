@@ -3,21 +3,29 @@ import _ from 'lodash';
 var edad,
     jugador = {},
     conexiones = [],
-    logosEspeciales = [];
+    logrosEspeciales = [];
 
-var esAdolescente = (edad > 0 && edad < 20),
-    primeraVezJugando = jugador.esPrimevaVezJungando,
-    esParteDeUnaRed = _.some(conexiones, function (n) {
-        return jugador.red === n
-    }),
-    tieneLogrosEspeciales = _.some(logosEspeciales, function (logros) {
-        return jugador.ultimoLogro === logros;
-    });
 
-if (esAdolescente || primeraVezJugando || esParteDeUnaRed || tieneLogrosEspeciales) {
+var conditions = [
+    () => {
+        return edad > 0 && edad < 20
+    },
+    () => jugador.esPrimevaVezJugando,
+    () => {
+        return _.some(conexiones, (n) => jugador.red === n);
+    },
+    () => {
+        return _.some(logrosEspeciales, (logros) => jugador.ultimoLogro === logros);
+    },
+    () => {
+        return logrosEspeciales.length > 10;
+    }
+]
+
+let matches = _.some(conditions, c => c());
+if (matches){
     muestraOfertaEspecial();
 }
-
 
 function muestraOfertaEspecial() {
     /* muestra una banner con una oferta especial */
