@@ -5,18 +5,20 @@ var edad,
     conexiones = [],
     logosEspeciales = [];
 
-if ((edad > 0 && edad < 20) ||
-    jugador.novato || _.some(conexiones, function (n) {
+var esAdolescente = (edad > 0 && edad < 20),
+    primeraVezJugando = jugador.esPrimevaVezJungando,
+    esParteDeUnaRed = _.some(conexiones, function (n) {
         return jugador.red === n
-    }) ||
-    _.some(logosEspeciales, function (logros) {
+    }),
+    tieneLogrosEspeciales = _.some(logosEspeciales, function (logros) {
         return jugador.ultimoLogro === logros;
-    })) {
+    });
+
+if (esAdolescente || primeraVezJugando || esParteDeUnaRed || tieneLogrosEspeciales) {
     muestraOfertaEspecial();
+}
 
 
-    function muestraOfertaEspecial() {
-        /* muestra una banner con una oferta especial */
-
-    }
+function muestraOfertaEspecial() {
+    /* muestra una banner con una oferta especial */
 }
